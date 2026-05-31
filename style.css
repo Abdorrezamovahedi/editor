@@ -57,6 +57,10 @@ text-shadow:
 
 /* Giant Hero Glow */
 
+.hero{
+position:relative;
+}
+
 .hero::before{
 content:'';
 position:absolute;
@@ -152,17 +156,29 @@ box-shadow:
 0 0 100px rgba(123,0,255,.6);
 }
 
-/* Shine Effect */
-
-.card img{
-position:relative;
-overflow:hidden;
-transition:.5s;
-}
+/* Portfolio Images Fixed */
 
 .card{
 overflow:hidden;
+text-align:center;
 }
+
+.card img{
+width:85%;
+max-width:280px;
+height:130px;
+object-fit:cover;
+border-radius:15px;
+margin:0 auto 15px;
+display:block;
+transition:.5s;
+}
+
+.card img:hover{
+transform:scale(1.05);
+}
+
+/* Shine Effect */
 
 .card::after{
 content:'';
@@ -185,9 +201,13 @@ transition:.8s;
 left:160%;
 }
 
-/* RGB Hero Image */
+/* RGB Hero Image Fixed */
 
 .hero img{
+width:130px;
+height:130px;
+object-fit:cover;
+border-radius:50%;
 border:4px solid transparent;
 background:
 linear-gradient(#000,#000) padding-box,
@@ -332,3 +352,30 @@ background:linear-gradient(
 );
 border-radius:20px;
 }
+
+/* Mobile Optimization */
+
+@media(max-width:768px){
+
+.hero img{
+width:100px;
+height:100px;
+}
+
+.hero h1{
+font-size:38px;
+}
+
+.title{
+font-size:32px;
+}
+
+.card img{
+width:90%;
+height:110px;
+}
+
+}
+
+```
+```
