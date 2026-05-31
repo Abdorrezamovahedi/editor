@@ -1,79 +1,10 @@
-/* ================= MATRIX BACKGROUND ================= */
+/* =========================
+   PREMIUM EDITOR JS
+========================= */
 
-const canvas = document.createElement("canvas");
-canvas.id = "matrix";
-document.body.prepend(canvas);
-
-const ctx = canvas.getContext("2d");
-
-function resizeCanvas(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-
-resizeCanvas();
-
-window.addEventListener("resize",()=>{
-
-resizeCanvas();
-
-columns = Math.floor(canvas.width/fontSize);
-
-drops = [];
-
-for(let i=0;i<columns;i++){
-drops[i] = 1;
-}
-
-});
-
-const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*";
-const fontSize = 14;
-
-let columns = Math.floor(canvas.width/fontSize);
-
-let drops = [];
-
-for(let i=0;i<columns;i++){
-drops[i] = 1;
-}
-
-function matrix(){
-
-ctx.fillStyle = "rgba(0,0,0,0.05)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle = "#00ffee";
-ctx.font = fontSize + "px monospace";
-
-for(let i=0;i<drops.length;i++){
-
-const text =
-letters[Math.floor(Math.random()*letters.length)];
-
-ctx.fillText(
-text,
-i * fontSize,
-drops[i] * fontSize
-);
-
-if(
-drops[i] * fontSize > canvas.height &&
-Math.random() > 0.975
-){
-drops[i] = 0;
-}
-
-drops[i]++;
-}
-
-requestAnimationFrame(matrix);
-
-}
-
-matrix();
-
-/* ================= SCROLL REVEAL ================= */
+/* =========================
+   SCROLL REVEAL
+========================= */
 
 const observer = new IntersectionObserver((entries)=>{
 
@@ -82,13 +13,12 @@ entries.forEach(entry=>{
 if(entry.isIntersecting){
 
 entry.target.classList.add("show");
-entry.target.classList.add("flash");
 
 }
 
 });
 
-},{threshold:0.2});
+},{threshold:0.15});
 
 document.querySelectorAll(".hidden").forEach(el=>{
 
@@ -96,7 +26,27 @@ observer.observe(el);
 
 });
 
-/* ================= CUSTOM CURSOR ================= */
+/* =========================
+   SPOTLIGHT
+========================= */
+
+document.addEventListener("mousemove",(e)=>{
+
+document.documentElement.style.setProperty(
+"--spot-x",
+e.clientX + "px"
+);
+
+document.documentElement.style.setProperty(
+"--spot-y",
+e.clientY + "px"
+);
+
+});
+
+/* =========================
+   CUSTOM CURSOR
+========================= */
 
 const cursor = document.createElement("div");
 
@@ -104,142 +54,56 @@ cursor.classList.add("cursor");
 
 document.body.appendChild(cursor);
 
-document.addEventListener("mousemove",(e)=>{
-
-cursor.style.left = e.clientX + "px";
-cursor.style.top = e.clientY + "px";
-
-if(Math.random() > 0.88){
-
-createParticle(
-e.clientX,
-e.clientY
-);
-
-}
-
-});
-
-/* ================= PARTICLES ================= */
-
-function createParticle(x,y){
-
-const p = document.createElement("div");
-
-p.classList.add("particle");
-
-p.style.left = x + "px";
-p.style.top = y + "px";
-
-document.body.appendChild(p);
-
-setTimeout(()=>{
-
-p.remove();
-
-},4000);
-
-}
-
-/* ================= SAFE PARALLAX ================= */
-
-let mx = 0;
-let my = 0;
-
-let cx = 0;
-let cy = 0;
+let cursorX = 0;
+let cursorY = 0;
 
 document.addEventListener("mousemove",(e)=>{
 
-mx = e.clientX;
-my = e.clientY;
+cursorX = e.clientX;
+cursorY = e.clientY;
 
 });
 
-function animate(){
+function animateCursor(){
 
-cx += (mx-cx)*0.05;
-cy += (my-cy)*0.05;
+cursor.style.left = cursorX + "px";
+cursor.style.top = cursorY + "px";
 
-document.documentElement.style.setProperty(
-"--mx",
-cx/50
-);
-
-document.documentElement.style.setProperty(
-"--my",
-cy/50
-);
-
-requestAnimationFrame(animate);
+requestAnimationFrame(animateCursor);
 
 }
 
-animate();
+animateCursor();
 
-/* ================= RANDOM GLITCH ================= */
+/* =========================
+   MAGNETIC BUTTONS
+========================= */
 
-setInterval(()=>{
+document.querySelectorAll(".btn").forEach(btn=>{
 
-const h = document.querySelector(".hero h1");
+btn.addEventListener("mousemove",(e)=>{
 
-if(h){
+const rect = btn.getBoundingClientRect();
 
-h.style.transform =
-`skew(${Math.random()*2-1}deg)`;
+const x = e.clientX - rect.left - rect.width/2;
+const y = e.clientY - rect.top - rect.height/2;
 
-setTimeout(()=>{
+btn.style.transform =
+`translate(${x*0.12}px,${y*0.12}px)`;
 
-h.style.transform = "none";
+});
 
-},120);
+btn.addEventListener("mouseleave",()=>{
 
-}
+btn.style.transform = "";
 
-},2500);
+});
 
-/* ================= FLOATING ORBS ================= */
+});
 
-function createOrb(className){
-
-const orb = document.createElement("div");
-
-orb.classList.add("orb");
-
-if(className){
-
-orb.classList.add(className);
-
-}
-
-orb.style.left =
-Math.random()*100 + "vw";
-
-orb.style.top =
-Math.random()*100 + "vh";
-
-orb.style.animationDuration =
-(12 + Math.random()*10) + "s";
-
-document.body.appendChild(orb);
-
-}
-
-for(let i=0;i<6;i++){
-
-createOrb(
-
-i%3===0
-? "purple"
-: i%3===1
-? "pink"
-: ""
-
-);
-
-}
-
-/* ================= CARD 3D EFFECT ================= */
+/* =========================
+   3D PORTFOLIO CARDS
+========================= */
 
 document.querySelectorAll(".card").forEach(card=>{
 
@@ -247,22 +111,20 @@ card.addEventListener("mousemove",(e)=>{
 
 const rect = card.getBoundingClientRect();
 
-const x =
-e.clientX - rect.left;
-
-const y =
-e.clientY - rect.top;
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
 
 const rotateY =
-((x / rect.width)-0.5) * 20;
+((x / rect.width)-0.5) * 12;
 
 const rotateX =
-((y / rect.height)-0.5) * -20;
+((y / rect.height)-0.5) * -12;
 
 card.style.transform = `
+perspective(1000px)
 rotateX(${rotateX}deg)
 rotateY(${rotateY}deg)
-scale(1.05)
+translateY(-10px)
 `;
 
 });
@@ -275,34 +137,75 @@ card.style.transform = "";
 
 });
 
-/* ================= BUTTON EFFECT ================= */
+/* =========================
+   TEXT SCRAMBLE
+========================= */
 
-document.querySelectorAll(".btn").forEach(btn=>{
+const heroTitle = document.querySelector(".hero h1");
 
-btn.addEventListener("click",()=>{
+if(heroTitle){
 
-document.body.style.filter =
-"hue-rotate(180deg)";
+const letters =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-setTimeout(()=>{
+const originalText =
+heroTitle.innerText;
 
-document.body.style.filter =
-"none";
+function scramble(){
 
-},500);
+let iteration = 0;
+
+const interval = setInterval(()=>{
+
+heroTitle.innerText = originalText
+.split("")
+.map((char,index)=>{
+
+if(index < iteration){
+
+return originalText[index];
+
+}
+
+return letters[
+Math.floor(
+Math.random()*letters.length
+)
+];
+
+})
+.join("");
+
+if(iteration >= originalText.length){
+
+clearInterval(interval);
+
+}
+
+iteration += 0.5;
+
+},30);
+
+}
+
+window.addEventListener("load",()=>{
+
+setTimeout(scramble,500);
 
 });
 
-});
+}
 
-/* ================= HERO TYPING EFFECT ================= */
+/* =========================
+   HERO TYPING EFFECT
+========================= */
 
 const heroText =
 document.querySelector(".hero p");
 
 if(heroText){
 
-const original =
+const text =
 heroText.textContent;
 
 heroText.textContent = "";
@@ -311,19 +214,123 @@ let i = 0;
 
 function typeWriter(){
 
-if(i < original.length){
+if(i < text.length){
 
-heroText.textContent +=
-original.charAt(i);
+heroText.textContent += text.charAt(i);
 
 i++;
 
-setTimeout(typeWriter,60);
+setTimeout(typeWriter,50);
 
 }
 
 }
 
-typeWriter();
+setTimeout(typeWriter,700);
 
 }
+
+/* =========================
+   FLOATING ORBS
+========================= */
+
+function createOrb(type){
+
+const orb = document.createElement("div");
+
+orb.classList.add("orb");
+
+if(type){
+
+orb.classList.add(type);
+
+}
+
+orb.style.left =
+Math.random()*100 + "vw";
+
+orb.style.top =
+Math.random()*100 + "vh";
+
+orb.style.animationDuration =
+(12 + Math.random()*8) + "s";
+
+document.body.appendChild(orb);
+
+}
+
+for(let i=0;i<4;i++){
+
+createOrb(
+i % 2 === 0
+? "purple"
+: "pink"
+);
+
+}
+
+/* =========================
+   COUNTER EFFECT
+========================= */
+
+document.querySelectorAll("[data-count]").forEach(counter=>{
+
+const target =
+parseInt(counter.dataset.count);
+
+let current = 0;
+
+const speed = target / 80;
+
+function update(){
+
+current += speed;
+
+if(current < target){
+
+counter.textContent =
+Math.floor(current);
+
+requestAnimationFrame(update);
+
+}else{
+
+counter.textContent =
+target;
+
+}
+
+}
+
+update();
+
+});
+
+/* =========================
+   SMOOTH NAV LINKS
+========================= */
+
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+
+link.addEventListener("click",(e)=>{
+
+const target =
+document.querySelector(
+link.getAttribute("href")
+);
+
+if(target){
+
+e.preventDefault();
+
+target.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+}
+
+});
+
+});
