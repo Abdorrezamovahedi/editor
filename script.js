@@ -24,3 +24,12 @@ document.body.style.backgroundPosition =
 `${e.clientX/30}px ${e.clientY/30}px`;
 
 });
+
+document.addEventListener("mousemove",(e)=>{
+
+const glow=document.querySelector(".cursor-glow");
+
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+
+});
