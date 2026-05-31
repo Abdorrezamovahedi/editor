@@ -1,14 +1,321 @@
+/* ========================= */
+/* GOD MODE CYBER EFFECTS */
+/* ========================= */
+
+/* Rainbow Logo */
+
+.logo{
+background:linear-gradient(
+90deg,
+#ff0000,
+#ff8800,
+#ffff00,
+#00ff00,
+#00ffff,
+#0000ff,
+#ff00ff,
+#ff0000
+);
+background-size:600%;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:rainbowLogo 8s linear infinite;
+}
+
+@keyframes rainbowLogo{
+100%{
+background-position:600%;
+}
+}
+
+/* Aurora Background */
+
+body{
+background:#050505;
+position:relative;
+}
+
+body::before{
+content:'';
+position:fixed;
+width:250%;
+height:250%;
+top:-75%;
+left:-75%;
+background:
+radial-gradient(circle,#7b00ff44 0%,transparent 35%),
+radial-gradient(circle,#00aaff44 0%,transparent 35%),
+radial-gradient(circle,#ff00ff33 0%,transparent 30%);
+animation:aurora 25s linear infinite;
+z-index:-5;
+}
+
+@keyframes aurora{
+0%{
+transform:rotate(0deg) scale(1);
+}
+100%{
+transform:rotate(360deg) scale(1.2);
+}
+}
+
+/* Cyber Grid */
+
+body{
+background-image:
+linear-gradient(rgba(0,170,255,.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(123,0,255,.05) 1px, transparent 1px);
+background-size:60px 60px;
+animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+100%{
+background-position:60px 60px;
+}
+}
+
+/* Hero Image Extreme Glow */
+
 .hero img{
 animation:
 float 4s ease-in-out infinite,
-glowBreath 3s infinite;
+heroGlow 3s ease-in-out infinite;
 }
 
-@keyframes glowBreath{
+@keyframes heroGlow{
 50%{
 box-shadow:
-0 0 40px #7b00ff,
-0 0 80px #00aaff,
-0 0 120px #ff00ff;
+0 0 50px #7b00ff,
+0 0 100px #00aaff,
+0 0 150px #ff00ff;
+}
+}
+
+/* Animated Hero Text */
+
+.hero h1{
+background:linear-gradient(
+90deg,
+#ffffff,
+#00aaff,
+#7b00ff,
+#ff00ff,
+#ffffff
+);
+background-size:500%;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:textFlow 8s linear infinite;
+}
+
+@keyframes textFlow{
+100%{
+background-position:500%;
+}
+}
+
+/* Neon Button */
+
+.btn{
+position:relative;
+overflow:hidden;
+animation:btnPulse 2s infinite;
+}
+
+@keyframes btnPulse{
+50%{
+box-shadow:
+0 0 20px #7b00ff,
+0 0 40px #00aaff,
+0 0 80px #00aaff;
+}
+}
+
+.btn::before{
+content:'';
+position:absolute;
+top:0;
+left:-150%;
+width:80px;
+height:100%;
+background:rgba(255,255,255,.4);
+transform:skewX(-25deg);
+animation:btnShine 3s infinite;
+}
+
+@keyframes btnShine{
+100%{
+left:150%;
+}
+}
+
+/* Cards */
+
+.skill,
+.card,
+.review{
+position:relative;
+overflow:hidden;
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(25px);
+}
+
+.skill::before,
+.card::before,
+.review::before{
+content:'';
+position:absolute;
+inset:-2px;
+background:linear-gradient(
+90deg,
+#7b00ff,
+#00aaff,
+#ff00ff,
+#00ffee,
+#7b00ff
+);
+background-size:400%;
+z-index:-1;
+animation:borderMove 6s linear infinite;
+}
+
+@keyframes borderMove{
+100%{
+background-position:400%;
+}
+}
+
+/* 3D Hover */
+
+.skill:hover,
+.card:hover,
+.review:hover{
+transform:
+translateY(-15px)
+rotateX(8deg)
+rotateY(-8deg)
+scale(1.04);
+box-shadow:
+0 0 30px #7b00ff,
+0 0 80px rgba(123,0,255,.5);
+}
+
+/* Shine Effect */
+
+.skill::after,
+.card::after,
+.review::after{
+content:'';
+position:absolute;
+top:0;
+left:-120%;
+width:80px;
+height:100%;
+background:rgba(255,255,255,.12);
+transform:skewX(-25deg);
+animation:cardShine 6s infinite;
+}
+
+@keyframes cardShine{
+100%{
+left:150%;
+}
+}
+
+/* Navbar Glow */
+
+nav{
+box-shadow:
+0 0 30px rgba(123,0,255,.3);
+}
+
+nav::before{
+content:'';
+position:absolute;
+top:0;
+left:-100%;
+width:250px;
+height:100%;
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.15),
+transparent
+);
+animation:navShine 6s infinite;
+}
+
+@keyframes navShine{
+100%{
+left:150%;
+}
+}
+
+/* Links */
+
+nav a{
+transition:.3s;
+}
+
+nav a:hover{
+color:#00aaff;
+text-shadow:
+0 0 10px #00aaff,
+0 0 20px #00aaff;
+}
+
+/* Reveal Animation */
+
+.hidden{
+opacity:0;
+transform:
+translateY(80px)
+scale(.9);
+filter:blur(12px);
+transition:1.2s;
+}
+
+.show{
+opacity:1;
+transform:
+translateY(0)
+scale(1);
+filter:blur(0);
+}
+
+/* Footer */
+
+footer{
+border-top:1px solid rgba(255,255,255,.1);
+box-shadow:
+0 -10px 40px rgba(123,0,255,.2);
+}
+
+/* Floating Background Glow */
+
+body::after{
+content:'';
+position:fixed;
+inset:0;
+background:
+linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.02),
+transparent
+);
+animation:lightSweep 10s infinite;
+pointer-events:none;
+z-index:-1;
+}
+
+@keyframes lightSweep{
+0%{
+transform:translateX(-150%);
+}
+100%{
+transform:translateX(150%);
 }
 }
