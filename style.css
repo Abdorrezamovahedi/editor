@@ -1,52 +1,25 @@
 /* ========================= */
-/* RGB BORDER ANIMATION */
+/* CYBER GAMING EFFECTS */
 /* ========================= */
 
-.skill,
-.card,
-.review{
-position:relative;
-}
+/* لوگو زنده */
 
-.skill::after,
-.card::after,
-.review::after{
-
-content:'';
-position:absolute;
-inset:-2px;
-
+.logo{
 background:linear-gradient(
-45deg,
+90deg,
 #7b00ff,
 #00aaff,
 #ff00ff,
 #00ffee,
 #7b00ff
 );
-
 background-size:400% 400%;
-
-z-index:-1;
-border-radius:22px;
-
-opacity:0;
-
-animation:rgbBorder 8s linear infinite;
-
-transition:.5s;
-
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:logoAnimation 6s linear infinite;
 }
 
-.skill:hover::after,
-.card:hover::after,
-.review:hover::after{
-
-opacity:1;
-
-}
-
-@keyframes rgbBorder{
+@keyframes logoAnimation{
 
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
@@ -54,290 +27,360 @@ opacity:1;
 
 }
 
-/* ========================= */
-/* CYBER GRID */
-/* ========================= */
+/* نوار نورانی زیر منو */
 
-body::selection{
-background:#7b00ff;
-color:white;
+nav::after{
+content:"";
+position:absolute;
+left:0;
+bottom:0;
+width:100%;
+height:2px;
+
+background:linear-gradient(
+90deg,
+transparent,
+#7b00ff,
+#00aaff,
+transparent
+);
+
+animation:navGlow 3s linear infinite;
 }
 
-.cyber-grid{
-
-position:fixed;
-inset:0;
-
-background-image:
-linear-gradient(rgba(123,0,255,.08) 1px, transparent 1px),
-linear-gradient(90deg, rgba(123,0,255,.08) 1px, transparent 1px);
-
-background-size:60px 60px;
-
-transform:perspective(800px) rotateX(75deg);
-
-transform-origin:top;
-
-animation:gridMove 10s linear infinite;
-
-pointer-events:none;
-
-z-index:-4;
-
-}
-
-@keyframes gridMove{
+@keyframes navGlow{
 
 0%{
-background-position:0 0;
+transform:translateX(-100%);
 }
 
 100%{
-background-position:0 60px;
+transform:translateX(100%);
 }
 
 }
 
-/* ========================= */
-/* TEXT GLOW */
-/* ========================= */
+/* لینک های منو */
+
+nav a{
+position:relative;
+transition:.4s;
+}
+
+nav a::after{
+content:'';
+position:absolute;
+bottom:-6px;
+right:0;
+width:0;
+height:2px;
+background:#7b00ff;
+transition:.4s;
+}
+
+nav a:hover::after{
+width:100%;
+}
+
+nav a:hover{
+color:#7b00ff;
+text-shadow:0 0 15px #7b00ff;
+}
+
+/* تصویر پروفایل */
+
+.hero img{
+
+animation:
+float 4s ease-in-out infinite,
+profileGlow 2s infinite alternate;
+
+}
+
+@keyframes profileGlow{
+
+from{
+box-shadow:
+0 0 30px #7b00ff;
+}
+
+to{
+box-shadow:
+0 0 60px #7b00ff,
+0 0 120px #00aaff;
+}
+
+}
+
+/* عنوان */
 
 .hero h1{
-
-text-shadow:
-0 0 20px rgba(123,0,255,.8),
-0 0 40px rgba(123,0,255,.5),
-0 0 80px rgba(0,170,255,.4);
-
+animation:titleEnter 1.5s ease;
 }
 
-/* ========================= */
-/* FLOATING ICON EFFECT */
-/* ========================= */
-
-.skill{
-
-animation:floatingSkill 5s ease-in-out infinite;
-
-}
-
-.skill:nth-child(2){
-animation-delay:1s;
-}
-
-.skill:nth-child(3){
-animation-delay:2s;
-}
-
-.skill:nth-child(4){
-animation-delay:3s;
-}
-
-@keyframes floatingSkill{
+@keyframes titleEnter{
 
 0%{
-transform:translateY(0);
-}
-
-50%{
-transform:translateY(-8px);
+opacity:0;
+transform:translateY(60px);
 }
 
 100%{
+opacity:1;
 transform:translateY(0);
 }
 
 }
 
-/* ========================= */
-/* GLASS NAVBAR */
-/* ========================= */
+/* متن */
 
-nav{
+.hero p{
+animation:fadeText 2s ease;
+}
 
-border-bottom:
-1px solid rgba(255,255,255,.08);
+@keyframes fadeText{
 
-box-shadow:
-0 0 20px rgba(123,0,255,.15);
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:.8;
+transform:translateY(0);
+}
 
 }
 
-/* ========================= */
-/* IMAGE SHINE */
-/* ========================= */
+/* دکمه */
 
-.card{
-
+.btn{
+position:relative;
 overflow:hidden;
-
+transition:.4s;
 }
 
-.card::before{
-
+.btn::before{
 content:'';
-
 position:absolute;
-
 top:0;
 left:-150%;
-
-width:50%;
+width:100%;
 height:100%;
 
 background:
 linear-gradient(
 90deg,
 transparent,
-rgba(255,255,255,.15),
+rgba(255,255,255,.5),
 transparent
 );
 
-transform:skewX(-20deg);
-
+transition:1s;
 }
 
-.card:hover::before{
-
-animation:shine 1.2s;
-
+.btn:hover::before{
+left:150%;
 }
 
-@keyframes shine{
-
-100%{
-left:180%;
-}
-
-}
-
-/* ========================= */
-/* BUTTON PULSE */
-/* ========================= */
-
-.btn{
-
-animation:buttonPulse 2s infinite;
-
-}
-
-@keyframes buttonPulse{
-
-0%{
-
-box-shadow:
-0 0 0 0 rgba(123,0,255,.6);
-
-}
-
-70%{
-
-box-shadow:
-0 0 0 25px rgba(123,0,255,0);
-
-}
-
-100%{
-
-box-shadow:
-0 0 0 0 rgba(123,0,255,0);
-
-}
-
-}
-
-/* ========================= */
-/* CARD 3D EFFECT */
-/* ========================= */
-
-.card{
-
-transform-style:preserve-3d;
-perspective:1000px;
-
-}
-
-.card:hover{
+.btn:hover{
 
 transform:
-rotateX(6deg)
-rotateY(-6deg)
+translateY(-10px)
+scale(1.05);
+
+box-shadow:
+0 0 30px #7b00ff,
+0 0 80px #00aaff;
+
+}
+
+/* کارت ها */
+
+.skill,
+.card,
+.review{
+position:relative;
+overflow:hidden;
+}
+
+.skill::before,
+.card::before,
+.review::before{
+
+content:'';
+position:absolute;
+
+top:-100%;
+left:-100%;
+
+width:250%;
+height:250%;
+
+background:
+linear-gradient(
+45deg,
+transparent,
+rgba(255,255,255,.08),
+transparent
+);
+
+transform:rotate(45deg);
+transition:1s;
+
+}
+
+.skill:hover::before,
+.card:hover::before,
+.review:hover::before{
+
+top:100%;
+left:100%;
+
+}
+
+.skill:hover,
+.card:hover,
+.review:hover{
+
+transform:
 translateY(-15px)
 scale(1.03);
 
-}
-
-/* ========================= */
-/* HERO BACKGROUND LIGHT */
-/* ========================= */
-
-.hero{
-
-position:relative;
+box-shadow:
+0 0 35px rgba(123,0,255,.7);
 
 }
 
-.hero::before{
+/* تصاویر نمونه کار */
 
-content:'';
-
-position:absolute;
-
-width:500px;
-height:500px;
-
-background:
-radial-gradient(
-circle,
-rgba(123,0,255,.25),
-transparent 70%
-);
-
-border-radius:50%;
-
-animation:heroLight 6s infinite alternate;
-
-z-index:-1;
-
+.card img{
+transition:.8s;
 }
 
-@keyframes heroLight{
-
-0%{
-transform:scale(1);
+.card:hover img{
+transform:scale(1.1);
+filter:brightness(1.2);
 }
 
-100%{
-transform:scale(1.4);
-}
-
-}
-
-/* ========================= */
-/* NEON TITLE BAR */
-/* ========================= */
+/* عنوان بخش ها */
 
 .title{
+position:relative;
+}
 
-animation:titleGlow 3s infinite alternate;
+.title::after{
+
+content:'';
+position:absolute;
+bottom:-15px;
+right:50%;
+transform:translateX(50%);
+
+width:120px;
+height:4px;
+
+background:
+linear-gradient(
+90deg,
+#7b00ff,
+#00aaff
+);
+
+border-radius:10px;
 
 }
 
-@keyframes titleGlow{
+/* ورود سکشن ها */
 
-from{
+.hidden{
+opacity:0;
+transform:
+translateY(100px)
+scale(.8);
 
-text-shadow:
-0 0 10px #7b00ff;
+transition:1.2s;
+}
+
+.show{
+opacity:1;
+transform:
+translateY(0)
+scale(1);
+}
+
+/* شبکه اجتماعی */
+
+.contact a{
+position:relative;
+overflow:hidden;
+}
+
+.contact a::before{
+content:'';
+position:absolute;
+top:0;
+left:-120%;
+width:100%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.3),
+transparent
+);
+
+transition:.8s;
+}
+
+.contact a:hover::before{
+left:120%;
+}
+
+.contact a:hover{
+
+transform:
+translateY(-8px);
+
+box-shadow:
+0 0 30px #7b00ff;
 
 }
 
-to{
+/* فوتر */
 
-text-shadow:
-0 0 20px #7b00ff,
-0 0 40px #00aaff;
-
+footer{
+opacity:.6;
+transition:.4s;
 }
 
+footer:hover{
+opacity:1;
+letter-spacing:2px;
+}
+
+/* اسکرول بار */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+background:#050505;
+}
+
+::-webkit-scrollbar-thumb{
+background:linear-gradient(
+180deg,
+#7b00ff,
+#00aaff
+);
+border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+box-shadow:
+0 0 20px #7b00ff;
 }
