@@ -125,3 +125,55 @@ animation:shake 0.3s;
 75%{transform:translate(2px,2px);}
 100%{transform:translate(0,0);}
 }
+
+/* =========================
+   CLASSIC FLOATING ORBS
+========================= */
+
+.orb{
+position:fixed;
+width:120px;
+height:120px;
+border-radius:50%;
+background:radial-gradient(circle,#00aaff55,transparent);
+filter:blur(20px);
+opacity:0.4;
+z-index:-1;
+animation:floatOrb 12s ease-in-out infinite;
+}
+
+.orb.purple{
+background:radial-gradient(circle,#7b00ff55,transparent);
+}
+
+.orb.pink{
+background:radial-gradient(circle,#ff00ff44,transparent);
+}
+
+@keyframes floatOrb{
+0%{transform:translate(0,0) scale(1);}
+50%{transform:translate(40px,-60px) scale(1.2);}
+100%{transform:translate(0,0) scale(1);}
+}
+
+/* =========================
+   HERO SOFT FLOAT (CLASSIC)
+========================= */
+
+.hero{
+animation:heroFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroFloat{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-8px);}
+}
+
+/* =========================
+   SMOOTH AMBIENT MOVEMENT
+========================= */
+
+body::before{
+animation:bgMove 18s ease-in-out infinite !important;
+filter:blur(100px);
+}
