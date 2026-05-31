@@ -1,38 +1,239 @@
-// =========================
-// SCROLL REVEAL ANIMATION
-// =========================
+/* ================= BASE ================= */
 
-const elements = document.querySelectorAll('.hidden');
-
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Vazirmatn',sans-serif;
 }
-});
-}, {threshold:0.15});
 
-elements.forEach(el=>observer.observe(el));
+body{
+background:#050505;
+color:#fff;
+overflow-x:hidden;
+}
 
-// =========================
-// NAV HOVER SOUND FEEL (VISUAL FX)
-// =========================
+/* ================= BACKGROUND ================= */
 
-document.querySelectorAll('nav a').forEach(a=>{
-a.addEventListener('mouseenter',()=>{
-a.style.textShadow = "0 0 10px #00aaff";
-});
-a.addEventListener('mouseleave',()=>{
-a.style.textShadow = "none";
-});
-});
+body::before{
+content:'';
+position:fixed;
+inset:-60%;
+background:
+radial-gradient(circle at 20% 20%, #7b00ff55, transparent 40%),
+radial-gradient(circle at 80% 30%, #00aaff55, transparent 40%),
+radial-gradient(circle at 50% 80%, #ff00ff33, transparent 50%);
+filter:blur(60px);
+z-index:-1;
+animation:bgMove 12s linear infinite;
+}
 
-// =========================
-// HERO FLOAT EFFECT
-// =========================
+@keyframes bgMove{
+0%{transform:translate(0,0) rotate(0deg);}
+50%{transform:translate(6%,4%) rotate(180deg);}
+100%{transform:translate(0,0) rotate(360deg);}
+}
 
-const heroImg = document.querySelector('.hero img');
+/* ================= NAV ================= */
 
-setInterval(()=>{
-heroImg.style.transform = `translateY(${Math.sin(Date.now()/500)*5}px)`;
-},50);
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+border-bottom:1px solid #7b00ff55;
+z-index:1000;
+}
+
+.logo{
+font-size:22px;
+font-weight:800;
+background:linear-gradient(90deg,#7b00ff,#00aaff,#ff00ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:logoGlow 4s linear infinite;
+}
+
+@keyframes logoGlow{
+0%{background-position:0%;}
+100%{background-position:300%;}
+}
+
+nav ul{
+display:flex;
+gap:20px;
+list-style:none;
+}
+
+nav a{
+color:#fff;
+text-decoration:none;
+transition:0.3s;
+}
+
+nav a:hover{
+color:#00aaff;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+gap:15px;
+padding-top:80px;
+}
+
+.hero img{
+width:140px;
+height:140px;
+border-radius:50%;
+border:3px solid #7b00ff;
+box-shadow:0 0 25px #7b00ff;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+.btn{
+padding:12px 25px;
+background:linear-gradient(90deg,#7b00ff,#00aaff);
+border-radius:30px;
+color:#fff;
+text-decoration:none;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px #00aaff;
+}
+
+/* ================= SECTIONS ================= */
+
+section{
+padding:80px 20px;
+text-align:center;
+}
+
+.title{
+font-size:28px;
+margin-bottom:30px;
+}
+
+/* ================= SKILLS ================= */
+
+.skills{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+}
+
+.skill{
+padding:10px 20px;
+border:1px solid #7b00ff55;
+border-radius:20px;
+transition:0.3s;
+}
+
+.skill:hover{
+transform:translateY(-5px);
+box-shadow:0 0 15px #7b00ff;
+}
+
+/* ================= PORTFOLIO ================= */
+
+.portfolio{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.card{
+width:220px;
+background:#111;
+border-radius:15px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.card img{
+width:100%;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #00aaff;
+}
+
+.card:hover img{
+transform:scale(1.2);
+}
+
+/* ================= REVIEWS ================= */
+
+.review{
+margin:10px auto;
+padding:15px;
+background:#111;
+border-radius:10px;
+max-width:400px;
+transition:0.3s;
+}
+
+.review:hover{
+transform:scale(1.05);
+}
+
+/* ================= CONTACT ================= */
+
+.contact a{
+display:inline-block;
+margin:10px;
+padding:10px 20px;
+border-radius:20px;
+background:#111;
+color:#fff;
+text-decoration:none;
+transition:0.3s;
+}
+
+.contact a:hover{
+background:#00aaff;
+transform:scale(1.1);
+}
+
+/* ================= ANIMATION ================= */
+
+.hidden{
+opacity:0;
+transform:translateY(50px);
+transition:1s ease;
+}
+
+.show{
+opacity:1;
+transform:translateY(0);
+}
+
+footer{
+text-align:center;
+padding:20px;
+opacity:0.6;
+  }
