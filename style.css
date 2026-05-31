@@ -1,211 +1,386 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Vazirmatn',sans-serif;
-scroll-behavior:smooth;
-}
+/* ========================= */
+/* CYBER GAMING EFFECTS */
+/* ========================= */
 
-body{
-background:#050505;
-color:white;
-overflow-x:hidden;
-}
-
-body::before{
-content:'';
-position:fixed;
-width:700px;
-height:700px;
-background:#7b00ff;
-filter:blur(250px);
-top:-250px;
-left:-250px;
-opacity:.25;
-z-index:-2;
-animation:move1 10s infinite alternate;
-}
-
-body::after{
-content:'';
-position:fixed;
-width:700px;
-height:700px;
-background:#00aaff;
-filter:blur(250px);
-bottom:-250px;
-right:-250px;
-opacity:.20;
-z-index:-2;
-animation:move2 10s infinite alternate;
-}
-
-@keyframes move1{
-100%{
-transform:translate(120px,100px);
-}
-}
-
-@keyframes move2{
-100%{
-transform:translate(-120px,-100px);
-}
-}
-
-nav{
-position:fixed;
-top:0;
-width:100%;
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(15px);
-z-index:999;
-}
+/* لوگو زنده */
 
 .logo{
-font-size:28px;
-font-weight:800;
-background:linear-gradient(45deg,#7b00ff,#00aaff);
+background:linear-gradient(
+90deg,
+#7b00ff,
+#00aaff,
+#ff00ff,
+#00ffee,
+#7b00ff
+);
+background-size:400% 400%;
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
+animation:logoAnimation 6s linear infinite;
 }
 
-nav ul{
-display:flex;
-gap:25px;
-list-style:none;
+@keyframes logoAnimation{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
 }
+
+/* نوار نورانی زیر منو */
+
+nav::after{
+content:"";
+position:absolute;
+left:0;
+bottom:0;
+width:100%;
+height:2px;
+
+background:linear-gradient(
+90deg,
+transparent,
+#7b00ff,
+#00aaff,
+transparent
+);
+
+animation:navGlow 3s linear infinite;
+}
+
+@keyframes navGlow{
+
+0%{
+transform:translateX(-100%);
+}
+
+100%{
+transform:translateX(100%);
+}
+
+}
+
+/* لینک های منو */
 
 nav a{
-color:white;
-text-decoration:none;
+position:relative;
+transition:.4s;
 }
 
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-text-align:center;
-padding:20px;
+nav a::after{
+content:'';
+position:absolute;
+bottom:-6px;
+right:0;
+width:0;
+height:2px;
+background:#7b00ff;
+transition:.4s;
 }
+
+nav a:hover::after{
+width:100%;
+}
+
+nav a:hover{
+color:#7b00ff;
+text-shadow:0 0 15px #7b00ff;
+}
+
+/* تصویر پروفایل */
 
 .hero img{
-width:220px;
-height:220px;
-border-radius:50%;
-object-fit:cover;
-border:4px solid #7b00ff;
-box-shadow:0 0 40px #7b00ff;
-animation:float 3s infinite ease-in-out;
+
+animation:
+float 4s ease-in-out infinite,
+profileGlow 2s infinite alternate;
+
 }
 
-@keyframes float{
-50%{
-transform:translateY(-15px);
+@keyframes profileGlow{
+
+from{
+box-shadow:
+0 0 30px #7b00ff;
 }
+
+to{
+box-shadow:
+0 0 60px #7b00ff,
+0 0 120px #00aaff;
 }
+
+}
+
+/* عنوان */
 
 .hero h1{
-font-size:65px;
-margin-top:20px;
+animation:titleEnter 1.5s ease;
 }
 
-.hero span{
-background:linear-gradient(45deg,#7b00ff,#00aaff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+@keyframes titleEnter{
+
+0%{
+opacity:0;
+transform:translateY(60px);
 }
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* متن */
+
+.hero p{
+animation:fadeText 2s ease;
+}
+
+@keyframes fadeText{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:.8;
+transform:translateY(0);
+}
+
+}
+
+/* دکمه */
 
 .btn{
-margin-top:25px;
-padding:15px 35px;
-border-radius:15px;
-background:linear-gradient(45deg,#7b00ff,#00aaff);
-text-decoration:none;
-color:white;
-font-weight:700;
+position:relative;
+overflow:hidden;
+transition:.4s;
 }
 
-section{
-padding:100px 10%;
+.btn::before{
+content:'';
+position:absolute;
+top:0;
+left:-150%;
+width:100%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.5),
+transparent
+);
+
+transition:1s;
 }
 
-.title{
-font-size:45px;
-text-align:center;
-margin-bottom:60px;
+.btn:hover::before{
+left:150%;
 }
 
-.skills,
-.portfolio,
-.reviews{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+.btn:hover{
+
+transform:
+translateY(-10px)
+scale(1.05);
+
+box-shadow:
+0 0 30px #7b00ff,
+0 0 80px #00aaff;
+
 }
+
+/* کارت ها */
 
 .skill,
 .card,
 .review{
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.08);
-padding:25px;
-border-radius:20px;
-backdrop-filter:blur(15px);
-transition:.4s;
+position:relative;
+overflow:hidden;
+}
+
+.skill::before,
+.card::before,
+.review::before{
+
+content:'';
+position:absolute;
+
+top:-100%;
+left:-100%;
+
+width:250%;
+height:250%;
+
+background:
+linear-gradient(
+45deg,
+transparent,
+rgba(255,255,255,.08),
+transparent
+);
+
+transform:rotate(45deg);
+transition:1s;
+
+}
+
+.skill:hover::before,
+.card:hover::before,
+.review:hover::before{
+
+top:100%;
+left:100%;
+
 }
 
 .skill:hover,
 .card:hover,
 .review:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px #7b00ff;
+
+transform:
+translateY(-15px)
+scale(1.03);
+
+box-shadow:
+0 0 35px rgba(123,0,255,.7);
+
 }
+
+/* تصاویر نمونه کار */
 
 .card img{
-width:100%;
-height:250px;
-object-fit:cover;
-border-radius:15px;
-margin-bottom:15px;
+transition:.8s;
 }
 
-.contact{
-text-align:center;
+.card:hover img{
+transform:scale(1.1);
+filter:brightness(1.2);
 }
 
-.contact a{
-display:inline-block;
-margin:15px;
-padding:15px 35px;
-border-radius:15px;
-background:#111;
-color:white;
-text-decoration:none;
-transition:.4s;
+/* عنوان بخش ها */
+
+.title{
+position:relative;
 }
 
-.contact a:hover{
-background:#7b00ff;
+.title::after{
+
+content:'';
+position:absolute;
+bottom:-15px;
+right:50%;
+transform:translateX(50%);
+
+width:120px;
+height:4px;
+
+background:
+linear-gradient(
+90deg,
+#7b00ff,
+#00aaff
+);
+
+border-radius:10px;
+
 }
+
+/* ورود سکشن ها */
 
 .hidden{
 opacity:0;
-transform:translateY(80px);
-transition:1s;
+transform:
+translateY(100px)
+scale(.8);
+
+transition:1.2s;
 }
 
 .show{
 opacity:1;
-transform:translateY(0);
+transform:
+translateY(0)
+scale(1);
 }
 
+/* شبکه اجتماعی */
+
+.contact a{
+position:relative;
+overflow:hidden;
+}
+
+.contact a::before{
+content:'';
+position:absolute;
+top:0;
+left:-120%;
+width:100%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.3),
+transparent
+);
+
+transition:.8s;
+}
+
+.contact a:hover::before{
+left:120%;
+}
+
+.contact a:hover{
+
+transform:
+translateY(-8px);
+
+box-shadow:
+0 0 30px #7b00ff;
+
+}
+
+/* فوتر */
+
 footer{
-padding:30px;
-text-align:center;
+opacity:.6;
+transition:.4s;
+}
+
+footer:hover{
+opacity:1;
+letter-spacing:2px;
+}
+
+/* اسکرول بار */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+background:#050505;
+}
+
+::-webkit-scrollbar-thumb{
+background:linear-gradient(
+180deg,
+#7b00ff,
+#00aaff
+);
+border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+box-shadow:
+0 0 20px #7b00ff;
 }
