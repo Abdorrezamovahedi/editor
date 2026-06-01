@@ -124,8 +124,8 @@ screen.innerHTML=`
 <div class="binary-bg">${binary}</div>
 <div class="warning-scan"></div>
 <div class="warning-triangle">⚠</div>
-<div class="warning-title">ACCESS DENIED</div>
-<div class="warning-sub">SECURITY BREACH DETECTED</div>
+<div class="warning-title">حمله سایبری</div>
+<div class="warning-sub">wiohinhiwniuhiwniweugiuniuweiuhnijg8wegnuewihgewngiuewgueuyguwegewghneiusbguye nguyesgiusebgiusijkvniudhdgniokdsdbhgiojklseniukgnsdiuygeujkdngbujkdrgbviudbsgiubsriuhiohndriof</div>
 `;
 
 document.body.appendChild(screen);
