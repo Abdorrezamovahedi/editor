@@ -1,176 +1,93 @@
-/* =========================
-   CORE SYSTEM (OPTIMIZED)
-========================= */
-
-const isMobile = window.innerWidth < 768;
-
-/* Reveal on scroll */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll(".hidden").forEach(el => observer.observe(el));
-
-/* Smooth scroll */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    const target = document.querySelector(this.getAttribute("href"));
-
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  });
-});
-
-console.log("Core Loaded");
 
 /* =========================
-   PARTICLES (OPTIMIZED CANVAS)
+   SAFE PERFORMANCE FIX
 ========================= */
 
-const canvas = document.createElement("canvas");
-canvas.id = "particles";
-document.body.prepend(canvas);
-
-const ctx = canvas.getContext("2d");
-
-let w, h;
-
-function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
+.hero img,
+.card,
+.skill{
+will-change: transform;
 }
 
-resize();
-window.addEventListener("resize", resize);
-
-/* reduce particles for performance */
-const particleCount = isMobile ? 20 : 45;
-
-const particles = [];
-
-for (let i = 0; i < particleCount; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.2,
-    vy: (Math.random() - 0.5) * 0.2,
-    size: Math.random() * 1.8 + 0.6
-  });
+/* ❌ حذف will-change از کل صفحه */
+*{
+will-change: auto;
 }
-
-let lastTime = 0;
-
-function draw(t) {
-
-  /* throttle for mobile */
-  if (isMobile && t - lastTime < 33) {
-    requestAnimationFrame(draw);
-    return;
-  }
-
-  lastTime = t;
-
-  ctx.clearRect(0, 0, w, h);
-
-  for (let p of particles) {
-
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.x < 0 || p.x > w) p.vx *= -1;
-    if (p.y < 0 || p.y > h) p.vy *= -1;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-
-    ctx.fillStyle = "rgba(0,255,255,0.35)";
-    ctx.fill();
-  }
-
-  requestAnimationFrame(draw);
-}
-
-requestAnimationFrame(draw);
-
-console.log("Particles Loaded");
 
 /* =========================
-   CURSOR GLOW (DESKTOP ONLY)
+   MOBILE PERFORMANCE MODE
 ========================= */
 
-if (!isMobile) {
+@media (max-width:768px){
 
-  const glow = document.createElement("div");
-  glow.className = "cursor-glow";
-  document.body.appendChild(glow);
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let glowX = 0;
-  let glowY = 0;
-
-  document.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animateGlow() {
-    glowX += (mouseX - glowX) * 0.15;
-    glowY += (mouseY - glowY) * 0.15;
-
-    glow.style.left = glowX + "px";
-    glow.style.top = glowY + "px";
-
-    requestAnimationFrame(animateGlow);
-  }
-
-  animateGlow();
+/* خاموش کردن hover سنگین */
+.card:hover,
+.skill:hover,
+.btn:hover{
+transform:none !important;
+box-shadow:none !important;
 }
 
-console.log("Cursor Loaded");
+/* سبک کردن انیمیشن‌ها */
+.hero img{
+animation:none !important;
+}
+
+}
 
 /* =========================
-   3D CARDS (OPTIMIZED)
+   SAFE ANIMATION LIMITER
 ========================= */
 
-document.querySelectorAll(".card").forEach(card => {
+@media (max-width:768px){
 
-  let active = false;
+/* جلوگیری از فشار GPU */
+*{
+animation-duration:0s !important;
+transition-duration:0.2s !important;
+}
 
-  card.addEventListener("mousemove", (e) => {
+}
 
-    if (isMobile) return;
+/* =========================
+   FIX SCROLL STABILITY
+========================= */
 
-    const rect = card.getBoundingClientRect();
+html,body{
+overflow-x:hidden;
+overscroll-behavior: none;
+}
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+/* =========================
+   HERO STABILITY FIX
+========================= */
 
-    const rotateY = (x - rect.width / 2) / 25;
-    const rotateX = (rect.height / 2 - y) / 25;
+.hero{
+transform:none !important;
+}
 
-    card.style.transform =
-      `perspective(900px)
-       rotateX(${rotateX}deg)
-       rotateY(${rotateY}deg)
-       scale(1.02)`;
-  });
+.hero img{
+transform:none;
+animation: float 5s ease-in-out infinite;
+}
 
-  card.addEventListener("mouseleave", () => {
-    card.style.transform =
-      "perspective(900px) rotateX(0) rotateY(0) scale(1)";
-  });
+/* =========================
+   CLEAN CARD SYSTEM
+========================= */
 
-});
+.card{
+transform:none;
+transition:0.3s ease;
+}
 
-console.log("Gaming FX Loaded ✔");
+.card:hover{
+transform:translateY(-6px);
+}
+
+/* =========================
+   PREVENT LAYOUT BREAK
+========================= */
+
+section{
+transform:none !important;
+}
