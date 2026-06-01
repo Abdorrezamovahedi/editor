@@ -124,7 +124,7 @@ screen.innerHTML=`
 <div class="binary-bg">${binary}</div>
 <div class="warning-scan"></div>
 <div class="warning-triangle">⚠</div>
-<div class="warning-title">نباید می امدی 😈</div>
+<div class="warning-title">حمله سایبری</div>
 <div class="warning-sub">اخطای(hfojodnhhnunhednhn@$%$^%$%&^YTF%SDCهکر haker)</div>
 <div class="warning-sub">بدون با چه ادیتوری در ارتباطی</div>
 `;
