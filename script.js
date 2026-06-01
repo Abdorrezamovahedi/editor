@@ -805,3 +805,318 @@ behavior:"smooth"
 });
 
 });
+
+/* =========================
+   1 - RANDOM RGB FLASH
+========================= */
+
+setInterval(()=>{
+
+document.body.animate([
+{
+filter:"hue-rotate(0deg)"
+},
+{
+filter:"hue-rotate(40deg)"
+},
+{
+filter:"hue-rotate(0deg)"
+}
+],{
+duration:800
+});
+
+},12000);
+
+/* =========================
+   2 - FLOATING EMOJIS
+========================= */
+
+const emojis = ["🔥","⚡","💎","🚀","🎮"];
+
+setInterval(()=>{
+
+const e =
+document.createElement("div");
+
+e.innerHTML =
+emojis[
+Math.floor(
+Math.random()*emojis.length
+)
+];
+
+e.style.position="fixed";
+e.style.left=Math.random()*100+"vw";
+e.style.bottom="-50px";
+e.style.fontSize="30px";
+e.style.pointerEvents="none";
+e.style.zIndex="999";
+
+document.body.appendChild(e);
+
+e.animate([
+{
+transform:"translateY(0)"
+},
+{
+transform:"translateY(-120vh)"
+}
+],{
+duration:7000
+});
+
+setTimeout(()=>{
+e.remove();
+},7000);
+
+},2000);
+
+/* =========================
+   3 - LOGO ROTATION
+========================= */
+
+document
+.querySelector(".logo")
+?.addEventListener("mouseenter",()=>{
+
+document
+.querySelector(".logo")
+.animate([
+{
+transform:"rotate(0deg)"
+},
+{
+transform:"rotate(360deg)"
+}
+],{
+duration:1000
+});
+
+});
+
+/* =========================
+   4 - SHAKING REVIEWS
+========================= */
+
+document
+.querySelectorAll(".review")
+.forEach(review=>{
+
+review.addEventListener(
+"mouseenter",
+()=>{
+
+review.animate([
+{
+transform:"translateX(-3px)"
+},
+{
+transform:"translateX(3px)"
+},
+{
+transform:"translateX(-3px)"
+}
+],{
+duration:200
+});
+
+});
+
+});
+
+/* =========================
+   5 - RANDOM CARD GLOW
+========================= */
+
+setInterval(()=>{
+
+const cards =
+document.querySelectorAll(".card");
+
+if(!cards.length) return;
+
+const card =
+cards[
+Math.floor(
+Math.random()*cards.length
+)
+];
+
+card.animate([
+{
+boxShadow:
+"0 0 0px #00d9ff"
+},
+{
+boxShadow:
+"0 0 40px #00d9ff"
+},
+{
+boxShadow:
+"0 0 0px #00d9ff"
+}
+],{
+duration:1000
+});
+
+},3000);
+
+/* =========================
+   6 - TITLE PULSE
+========================= */
+
+document
+.querySelectorAll(".title")
+.forEach(title=>{
+
+setInterval(()=>{
+
+title.animate([
+{
+transform:"scale(1)"
+},
+{
+transform:"scale(1.05)"
+},
+{
+transform:"scale(1)"
+}
+],{
+duration:1000
+});
+
+},5000);
+
+});
+
+/* =========================
+   7 - DOUBLE CLICK EXPLOSION
+========================= */
+
+document.addEventListener(
+"dblclick",
+(e)=>{
+
+for(let i=0;i<20;i++){
+
+const p =
+document.createElement("div");
+
+p.style.position="fixed";
+p.style.left=e.clientX+"px";
+p.style.top=e.clientY+"px";
+p.style.width="6px";
+p.style.height="6px";
+p.style.borderRadius="50%";
+p.style.background="#00d9ff";
+p.style.pointerEvents="none";
+
+document.body.appendChild(p);
+
+const x =
+(Math.random()-0.5)*400;
+
+const y =
+(Math.random()-0.5)*400;
+
+p.animate([
+{
+transform:"translate(0,0)"
+},
+{
+transform:
+`translate(${x}px,${y}px)`
+}
+],{
+duration:1200
+});
+
+setTimeout(()=>{
+p.remove();
+},1200);
+
+}
+
+});
+
+/* =========================
+   8 - CYBER RAINBOW BUTTONS
+========================= */
+
+setInterval(()=>{
+
+document
+.querySelectorAll(".btn,.contact a")
+.forEach(btn=>{
+
+btn.style.filter=
+`hue-rotate(${
+Math.random()*360
+}deg)`;
+
+});
+
+},1500);
+
+/* =========================
+   9 - SCREEN SHAKE
+========================= */
+
+setInterval(()=>{
+
+document.body.animate([
+{
+transform:"translateX(0)"
+},
+{
+transform:"translateX(-2px)"
+},
+{
+transform:"translateX(2px)"
+},
+{
+transform:"translateX(0)"
+}
+],{
+duration:120
+});
+
+},15000);
+
+/* =========================
+   10 - RANDOM GLITCH TEXT
+========================= */
+
+setInterval(()=>{
+
+const titles =
+document.querySelectorAll(
+"h1,.title"
+);
+
+if(!titles.length) return;
+
+const t =
+titles[
+Math.floor(
+Math.random()*titles.length
+)
+];
+
+t.animate([
+{
+transform:"translateX(-3px)"
+},
+{
+transform:"translateX(3px)"
+},
+{
+transform:"translateX(0)"
+}
+],{
+duration:150
+});
+
+},2500);
+
