@@ -1,11 +1,8 @@
 /* =========================
-   PREMIUM EDITOR JS
-   PART 1 OPTIMIZED
+   PART 1 LIGHTWEIGHT
 ========================= */
 
-/* =========================
-   SCROLL REVEAL
-========================= */
+/* SCROLL REVEAL */
 
 const observer = new IntersectionObserver((entries)=>{
 
@@ -14,7 +11,6 @@ entries.forEach(entry=>{
 if(entry.isIntersecting){
 
 entry.target.classList.add("show");
-
 observer.unobserve(entry.target);
 
 }
@@ -23,338 +19,383 @@ observer.unobserve(entry.target);
 
 },{threshold:0.15});
 
-document.querySelectorAll(".hidden").forEach(el=>{
+document.querySelectorAll(".hidden")
+.forEach(el=>observer.observe(el));
 
-observer.observe(el);
+/* CUSTOM CURSOR */
 
-});
-
-/* =========================
-   SPOTLIGHT
-========================= */
-
-let mouseX = window.innerWidth/2;
-let mouseY = window.innerHeight/2;
-
-document.addEventListener("mousemove",(e)=>{
-
-mouseX = e.clientX;
-mouseY = e.clientY;
-
-});
-
-function updateSpotlight(){
-
-document.documentElement.style.setProperty(
-"--spot-x",
-mouseX + "px"
-);
-
-document.documentElement.style.setProperty(
-"--spot-y",
-mouseY + "px"
-);
-
-requestAnimationFrame(updateSpotlight);
-
-}
-
-updateSpotlight();
-
-/* =========================
-   CUSTOM CURSOR
-========================= */
-
-const cursor = document.createElement("div");
-
-cursor.classList.add("cursor");
-
+const cursor=document.createElement("div");
+cursor.className="cursor";
 document.body.appendChild(cursor);
 
-let cursorX = 0;
-let cursorY = 0;
+let cx=0;
+let cy=0;
 
-let currentX = 0;
-let currentY = 0;
+let tx=0;
+let ty=0;
 
 document.addEventListener("mousemove",(e)=>{
 
-cursorX = e.clientX;
-cursorY = e.clientY;
+tx=e.clientX;
+ty=e.clientY;
 
 });
 
 function animateCursor(){
 
-currentX += (cursorX-currentX)*0.18;
-currentY += (cursorY-currentY)*0.18;
+cx+=(tx-cx)*0.15;
+cy+=(ty-cy)*0.15;
 
-cursor.style.left = currentX + "px";
-cursor.style.top = currentY + "px";
+cursor.style.transform=
+`translate(${cx}px,${cy}px)`;
 
-requestAnimationFrame(animateCursor);
+requestAnimationFrame(
+animateCursor
+);
 
 }
 
 animateCursor();
 
-/* =========================
-   OPTIMIZED NEON TRAIL
-========================= */
+/* MAGNETIC BUTTONS */
 
-let lastTrail = 0;
-
-document.addEventListener(
-"mousemove",
-(e)=>{
-
-const now = Date.now();
-
-if(now-lastTrail < 35) return;
-
-lastTrail = now;
-
-const trail =
-document.createElement("div");
-
-trail.style.position="fixed";
-trail.style.left=e.clientX+"px";
-trail.style.top=e.clientY+"px";
-
-trail.style.width="8px";
-trail.style.height="8px";
-
-trail.style.borderRadius="50%";
-
-trail.style.background="#00d9ff";
-
-trail.style.pointerEvents="none";
-
-trail.style.zIndex="9998";
-
-trail.style.boxShadow=
-"0 0 10px #00d9ff";
-
-document.body.appendChild(trail);
-
-trail.animate([
-{
-transform:"scale(1)",
-opacity:.7
-},
-{
-transform:"scale(0)",
-opacity:0
-}
-],{
-duration:350,
-easing:"ease-out"
-});
-
-setTimeout(()=>{
-trail.remove();
-},350);
-
-});
-
-/* =========================
-   MAGNETIC BUTTONS
-========================= */
-
-document.querySelectorAll(".btn").forEach(btn=>{
+document.querySelectorAll(".btn")
+.forEach(btn=>{
 
 btn.addEventListener("mousemove",(e)=>{
 
-const rect =
-btn.getBoundingClientRect();
+const r=btn.getBoundingClientRect();
 
-const x =
-e.clientX -
-rect.left -
-rect.width/2;
+const x=
+e.clientX-r.left-r.width/2;
 
-const y =
-e.clientY -
-rect.top -
-rect.height/2;
+const y=
+e.clientY-r.top-r.height/2;
 
-btn.style.transform =
+btn.style.transform=
 `translate(${x*0.08}px,${y*0.08}px)`;
 
 });
 
-btn.addEventListener("mouseleave",()=>{
-
-btn.style.transform =
-"translate(0,0)";
-
-});
+btn.addEventListener(
+"mouseleave",
+()=>btn.style.transform=""
+);
 
 });
 
-/* =========================
-   3D PORTFOLIO CARDS
-========================= */
+/* 3D CARDS */
 
-document.querySelectorAll(".card").forEach(card=>{
+document.querySelectorAll(".card")
+.forEach(card=>{
 
 card.addEventListener("mousemove",(e)=>{
 
-const rect =
+const r=
 card.getBoundingClientRect();
 
-const x =
-e.clientX -
-rect.left;
+const x=
+(e.clientX-r.left)/r.width;
 
-const y =
-e.clientY -
-rect.top;
+const y=
+(e.clientY-r.top)/r.height;
 
-const rotateY =
-((x / rect.width)-0.5)*8;
+const rx=(0.5-y)*10;
+const ry=(x-0.5)*10;
 
-const rotateX =
-((y / rect.height)-0.5)*-8;
-
-card.style.transform = `
-perspective(1000px)
-rotateX(${rotateX}deg)
-rotateY(${rotateY}deg)
-translateY(-8px)
-`;
+card.style.transform=
+`perspective(1000px)
+rotateX(${rx}deg)
+rotateY(${ry}deg)`;
 
 });
 
-card.addEventListener("mouseleave",()=>{
-
-card.style.transform = "";
+card.addEventListener(
+"mouseleave",
+()=>card.style.transform=""
+);
 
 });
 
-});
+/* HERO SCRAMBLE */
 
-/* =========================
-   TEXT SCRAMBLE
-========================= */
-
-const heroTitle =
+const heroTitle=
 document.querySelector(".hero h1");
 
 if(heroTitle){
 
-const letters =
+const letters=
 "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-const originalText =
-heroTitle.innerText;
+const original=
+heroTitle.textContent;
 
 function scramble(){
 
-let iteration = 0;
+let i=0;
 
-const interval = setInterval(()=>{
+const interval=
+setInterval(()=>{
 
-heroTitle.innerText =
-originalText
-.split("")
-.map((char,index)=>{
+heroTitle.textContent=
+original.split("")
+.map((c,index)=>{
 
-if(index < iteration){
-
-return originalText[index];
-
-}
+if(index<i) return original[index];
 
 return letters[
 Math.floor(
-Math.random()*
-letters.length
+Math.random()*letters.length
 )
 ];
 
-})
-.join("");
+}).join("");
 
-if(
-iteration >=
-originalText.length
-){
-
+if(i>=original.length)
 clearInterval(interval);
 
-}
+i+=0.5;
 
-iteration += 0.5;
-
-},35);
+},40);
 
 }
 
 window.addEventListener(
 "load",
-()=>{
-
-setTimeout(
-scramble,
-500
+()=>setTimeout(scramble,500)
 );
-
-});
 
 }
 
 /* =========================
-   HERO TYPING EFFECT
+   PART 2 LIGHTWEIGHT
 ========================= */
 
-const heroText =
+/* HERO TYPING */
+
+const heroText=
 document.querySelector(".hero p");
 
 if(heroText){
 
-const text =
+const text=
 heroText.textContent;
 
-heroText.textContent = "";
+heroText.textContent="";
 
-let i = 0;
+let i=0;
 
-function typeWriter(){
+(function type(){
 
-if(i < text.length){
+if(i<text.length){
 
-heroText.textContent +=
+heroText.textContent+=
 text.charAt(i);
 
 i++;
 
-setTimeout(
-typeWriter,
-40
+setTimeout(type,35);
+
+}
+
+})();
+
+}
+
+/* MATRIX */
+
+const canvas=
+document.createElement("canvas");
+
+canvas.id="matrix";
+
+canvas.style.position="fixed";
+canvas.style.inset="0";
+canvas.style.zIndex="-3";
+canvas.style.pointerEvents="none";
+
+document.body.prepend(canvas);
+
+const ctx=
+canvas.getContext("2d");
+
+const size=18;
+
+let cols;
+let drops;
+
+function resize(){
+
+canvas.width=
+window.innerWidth;
+
+canvas.height=
+window.innerHeight;
+
+cols=
+Math.floor(canvas.width/size);
+
+drops=
+Array(cols).fill(1);
+
+}
+
+resize();
+
+window.addEventListener(
+"resize",
+resize
+);
+
+const chars="01";
+
+function draw(){
+
+ctx.fillStyle=
+"rgba(0,0,0,.15)";
+
+ctx.fillRect(
+0,0,
+canvas.width,
+canvas.height
+);
+
+ctx.fillStyle="#00ff88";
+ctx.font=size+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const char=
+chars[
+Math.floor(
+Math.random()*2
+)
+];
+
+ctx.fillText(
+char,
+i*size,
+drops[i]*size
+);
+
+if(
+drops[i]*size>
+canvas.height &&
+Math.random()>0.98
+){
+
+drops[i]=0;
+
+}
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,80);
+
+/* FLOATING ORBS */
+
+for(let i=0;i<3;i++){
+
+const orb=
+document.createElement("div");
+
+orb.className="orb";
+
+orb.style.left=
+Math.random()*100+"vw";
+
+orb.style.top=
+Math.random()*100+"vh";
+
+document.body.appendChild(
+orb
 );
 
 }
 
-}
+/* COUNTERS */
 
-setTimeout(
-typeWriter,
-700
+document.querySelectorAll(
+"[data-count]"
+).forEach(counter=>{
+
+const target=
++counter.dataset.count;
+
+let current=0;
+
+const step=
+target/80;
+
+function update(){
+
+current+=step;
+
+if(current<target){
+
+counter.textContent=
+Math.floor(current);
+
+requestAnimationFrame(
+update
 );
 
+}else{
+
+counter.textContent=
+target;
+
 }
+
+}
+
+update();
+
+});
+
+/* SMOOTH LINKS */
+
+document
+.querySelectorAll('a[href^="#"]')
+.forEach(link=>{
+
+link.addEventListener(
+"click",
+e=>{
+
+const target=
+document.querySelector(
+link.getAttribute("href")
+);
+
+if(!target) return;
+
+e.preventDefault();
+
+target.scrollIntoView({
+behavior:"smooth"
+});
+
+});
+
+});
 
 /* =========================
-   RANDOM LOGO GLITCH
+   PART 3 FINAL
 ========================= */
 
-setInterval(()=>{
+/* LOGO GLITCH */
 
-const logo =
+const logo=
 document.querySelector(".logo");
 
-if(!logo) return;
+if(logo){
+
+setInterval(()=>{
 
 logo.animate([
 {
@@ -370,659 +411,98 @@ transform:"translateX(0)"
 duration:120
 });
 
-},5000);
+},8000);
 
-/* =========================
-   CLICK FLASH
-========================= */
+}
+
+/* ENERGY WAVE */
 
 document.addEventListener(
 "click",
 (e)=>{
 
-const flash =
+const wave=
 document.createElement("div");
 
-flash.style.position =
-"fixed";
+wave.style.position="fixed";
+wave.style.left=e.clientX+"px";
+wave.style.top=e.clientY+"px";
 
-flash.style.left =
-e.clientX + "px";
+wave.style.width="10px";
+wave.style.height="10px";
 
-flash.style.top =
-e.clientY + "px";
+wave.style.border=
+"2px solid #00d9ff";
 
-flash.style.width =
-"10px";
+wave.style.borderRadius="50%";
 
-flash.style.height =
-"10px";
+wave.style.pointerEvents="none";
 
-flash.style.borderRadius =
-"50%";
-
-flash.style.pointerEvents =
-"none";
-
-flash.style.zIndex =
-"9999";
-
-flash.style.boxShadow =
-`
-0 0 30px #00d9ff,
-0 0 60px #7b00ff,
-0 0 90px #ff00ff
-`;
+wave.style.zIndex="9999";
 
 document.body.appendChild(
-flash
+wave
 );
 
-flash.animate([
+wave.animate([
 {
-transform:"scale(0)"
+transform:
+"translate(-50%,-50%) scale(.5)",
+opacity:1
 },
 {
-transform:"scale(12)",
+transform:
+"translate(-50%,-50%) scale(12)",
 opacity:0
 }
 ],{
-duration:600
+duration:700
 });
 
-setTimeout(()=>{
-
-flash.remove();
-
-},600);
-
-});
-
-/* =========================
-   PREMIUM EDITOR JS
-   PART 2 OPTIMIZED
-========================= */
-
-/* =========================
-   MATRIX RAIN
-========================= */
-
-const matrixCanvas =
-document.createElement("canvas");
-
-matrixCanvas.style.position="fixed";
-matrixCanvas.style.top="0";
-matrixCanvas.style.left="0";
-matrixCanvas.style.width="100%";
-matrixCanvas.style.height="100%";
-matrixCanvas.style.zIndex="-3";
-matrixCanvas.style.pointerEvents="none";
-
-document.body.prepend(matrixCanvas);
-
-const ctx =
-matrixCanvas.getContext("2d");
-
-function resizeMatrix(){
-
-matrixCanvas.width =
-window.innerWidth;
-
-matrixCanvas.height =
-window.innerHeight;
-
-columns =
-Math.floor(
-matrixCanvas.width /
-fontSize
+setTimeout(
+()=>wave.remove(),
+700
 );
-
-drops =
-Array(columns).fill(1);
-
-}
-
-const chars =
-"01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-const fontSize = 18;
-
-let columns =
-Math.floor(
-window.innerWidth /
-fontSize
-);
-
-let drops =
-Array(columns).fill(1);
-
-resizeMatrix();
-
-window.addEventListener(
-"resize",
-resizeMatrix
-);
-
-function drawMatrix(){
-
-ctx.fillStyle =
-"rgba(0,0,0,0.12)";
-
-ctx.fillRect(
-0,
-0,
-matrixCanvas.width,
-matrixCanvas.height
-);
-
-ctx.fillStyle =
-"#00ff88";
-
-ctx.font =
-fontSize +
-"px monospace";
-
-for(
-let i=0;
-i<drops.length;
-i++
-){
-
-const text =
-chars[
-Math.floor(
-Math.random()*
-chars.length
-)
-];
-
-ctx.fillText(
-text,
-i*fontSize,
-drops[i]*fontSize
-);
-
-if(
-drops[i]*fontSize >
-matrixCanvas.height &&
-Math.random() > .985
-){
-
-drops[i]=0;
-
-}
-
-drops[i]++;
-
-}
-
-}
-
-setInterval(
-drawMatrix,
-75
-);
-
-/* =========================
-   FLOATING ORBS
-========================= */
-
-function createOrb(type){
-
-const orb =
-document.createElement("div");
-
-orb.classList.add("orb");
-
-if(type){
-
-orb.classList.add(type);
-
-}
-
-orb.style.left =
-Math.random()*100+"vw";
-
-orb.style.top =
-Math.random()*100+"vh";
-
-orb.style.animationDuration =
-(15 + Math.random()*10)
-+ "s";
-
-document.body.appendChild(
-orb
-);
-
-}
-
-for(
-let i=0;
-i<4;
-i++
-){
-
-createOrb(
-i % 2 === 0
-? "purple"
-: "pink"
-);
-
-}
-
-/* =========================
-   STARS
-========================= */
-
-for(
-let i=0;
-i<50;
-i++
-){
-
-const star =
-document.createElement("div");
-
-star.style.position="fixed";
-star.style.width="2px";
-star.style.height="2px";
-
-star.style.borderRadius="50%";
-
-star.style.background="white";
-
-star.style.left=
-Math.random()*100+"vw";
-
-star.style.top=
-Math.random()*100+"vh";
-
-star.style.opacity=
-Math.random();
-
-star.style.pointerEvents=
-"none";
-
-star.style.zIndex="-2";
-
-document.body.appendChild(
-star
-);
-
-star.animate([
-{opacity:.2},
-{opacity:1},
-{opacity:.2}
-],{
-duration:
-3000+
-Math.random()*5000,
-iterations:Infinity
-});
-
-}
-
-/* =========================
-   FLOATING PARTICLES
-========================= */
-
-function createParticle(){
-
-const p =
-document.createElement("div");
-
-p.style.position="fixed";
-
-p.style.width="4px";
-p.style.height="4px";
-
-p.style.borderRadius="50%";
-
-p.style.background=
-"#7b00ff";
-
-p.style.left=
-Math.random()*100+"vw";
-
-p.style.bottom="-10px";
-
-p.style.pointerEvents=
-"none";
-
-p.style.zIndex="-1";
-
-document.body.appendChild(
-p
-);
-
-p.animate([
-{
-transform:"translateY(0)"
-},
-{
-transform:
-"translateY(-120vh)"
-}
-],{
-duration:
-8000+
-Math.random()*4000
-});
-
-setTimeout(()=>{
-
-p.remove();
-
-},12000);
-
-}
-
-setInterval(
-createParticle,
-1200
-);
-
-/* =========================
-   COUNTER EFFECT
-========================= */
-
-document
-.querySelectorAll(
-"[data-count]"
-)
-.forEach(counter=>{
-
-const target =
-parseInt(
-counter.dataset.count
-);
-
-let current = 0;
-
-const speed =
-target / 100;
-
-function update(){
-
-current += speed;
-
-if(
-current < target
-){
-
-counter.textContent =
-Math.floor(current);
-
-requestAnimationFrame(
-update
-);
-
-}else{
-
-counter.textContent =
-target;
-
-}
-
-}
-
-update();
 
 });
 
-/* =========================
-   SMOOTH NAV LINKS
-========================= */
+/* HERO PARALLAX */
 
-document
-.querySelectorAll(
-'a[href^="#"]'
-)
-.forEach(link=>{
+const hero=
+document.querySelector(".hero");
 
-link.addEventListener(
-"click",
-(e)=>{
-
-const target =
-document.querySelector(
-link.getAttribute(
-"href"
-)
-);
-
-if(target){
-
-e.preventDefault();
-
-target.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-}
-
-});
-
-});
-
-/* =========================
-   FLOATING EMOJIS
-========================= */
-
-const emojis =
-["🔥","⚡","💎","🚀","🎮"];
-
-setInterval(()=>{
-
-const e =
-document.createElement("div");
-
-e.innerHTML =
-emojis[
-Math.floor(
-Math.random()*
-emojis.length
-)
-];
-
-e.style.position="fixed";
-e.style.left=
-Math.random()*100+"vw";
-
-e.style.bottom="-50px";
-
-e.style.fontSize="24px";
-
-e.style.pointerEvents=
-"none";
-
-e.style.zIndex="999";
-
-document.body.appendChild(e);
-
-e.animate([
-{
-transform:"translateY(0)"
-},
-{
-transform:
-"translateY(-100vh)"
-}
-],{
-duration:9000
-});
-
-setTimeout(()=>{
-
-e.remove();
-
-},9000);
-
-},5000);
-
-/* =========================
-   RANDOM CARD GLOW
-========================= */
-
-setInterval(()=>{
-
-const cards =
-document.querySelectorAll(
-".card"
-);
-
-if(!cards.length) return;
-
-const card =
-cards[
-Math.floor(
-Math.random()*
-cards.length
-)
-];
-
-card.animate([
-{
-boxShadow:
-"0 0 0px #00d9ff"
-},
-{
-boxShadow:
-"0 0 25px #00d9ff"
-},
-{
-boxShadow:
-"0 0 0px #00d9ff"
-}
-],{
-duration:1200
-});
-
-},6000);
-
-/* =========================
-   TITLE PULSE
-========================= */
-
-document
-.querySelectorAll(
-".title"
-)
-.forEach(title=>{
-
-setInterval(()=>{
-
-title.animate([
-{
-transform:"scale(1)"
-},
-{
-transform:"scale(1.03)"
-},
-{
-transform:"scale(1)"
-}
-],{
-duration:800
-});
-
-},7000);
-
-});
-
-/* =========================
-   DOUBLE CLICK EXPLOSION
-========================= */
+if(hero){
 
 document.addEventListener(
-"dblclick",
+"mousemove",
 (e)=>{
 
-for(
-let i=0;
-i<12;
-i++
-){
+const x=
+(window.innerWidth/2-e.clientX)
+*0.01;
 
-const p =
-document.createElement("div");
+const y=
+(window.innerHeight/2-e.clientY)
+*0.01;
 
-p.style.position="fixed";
-
-p.style.left=
-e.clientX+"px";
-
-p.style.top=
-e.clientY+"px";
-
-p.style.width="5px";
-p.style.height="5px";
-
-p.style.borderRadius="50%";
-
-p.style.background=
-"#00d9ff";
-
-p.style.pointerEvents=
-"none";
-
-document.body.appendChild(
-p
-);
-
-const x =
-(Math.random()-0.5)*300;
-
-const y =
-(Math.random()-0.5)*300;
-
-p.animate([
-{
-transform:
-"translate(0,0)"
-},
-{
-transform:
-`translate(${x}px,${y}px)`
-}
-],{
-duration:1000
-});
-
-setTimeout(()=>{
-
-p.remove();
-
-},1000);
-
-}
+hero.style.transform=
+`translate(${x}px,${y}px)`;
 
 });
 
-/* =========================
-   RANDOM GLITCH TEXT
-========================= */
+}
 
-setInterval(()=>{
+/* TITLE GLITCH */
 
-const titles =
-document.querySelectorAll(
-"h1,.title"
-);
+document
+.querySelectorAll(".title")
+.forEach(title=>{
 
-if(!titles.length) return;
+title.addEventListener(
+"mouseenter",
+()=>{
 
-const t =
-titles[
-Math.floor(
-Math.random()*
-titles.length
-)
-];
-
-t.animate([
+title.animate([
 {
 transform:
 "translateX(-2px)"
@@ -1039,392 +519,8 @@ transform:
 duration:120
 });
 
-},6000);
-
-/* =========================
-   PREMIUM EDITOR JS
-   PART 3 ULTRA EFFECTS
-========================= */
-
-/* =========================
-   SHOOTING STARS
-========================= */
-
-function createShootingStar(){
-
-const star =
-document.createElement("div");
-
-star.style.position="fixed";
-star.style.width="120px";
-star.style.height="2px";
-
-star.style.background=
-"linear-gradient(90deg,#fff,transparent)";
-
-star.style.left=
-Math.random()*100+"vw";
-
-star.style.top=
-Math.random()*40+"vh";
-
-star.style.pointerEvents="none";
-star.style.zIndex="-1";
-
-document.body.appendChild(star);
-
-star.animate([
-{
-transform:
-"translate(0,0) rotate(-25deg)",
-opacity:1
-},
-{
-transform:
-"translate(-500px,500px) rotate(-25deg)",
-opacity:0
-}
-],{
-duration:1800
-});
-
-setTimeout(()=>{
-star.remove();
-},1800);
-
-}
-
-setInterval(
-createShootingStar,
-8000
-);
-
-/* =========================
-   FLOATING 0 & 1
-========================= */
-
-function createBinary(){
-
-const b =
-document.createElement("div");
-
-b.innerText =
-Math.random()>0.5 ? "1" : "0";
-
-b.style.position="fixed";
-
-b.style.left=
-Math.random()*100+"vw";
-
-b.style.bottom="-30px";
-
-b.style.color=
-"rgba(0,255,120,.5)";
-
-b.style.fontSize=
-(12+Math.random()*20)+"px";
-
-b.style.pointerEvents="none";
-
-b.style.zIndex="-1";
-
-document.body.appendChild(b);
-
-b.animate([
-{
-transform:"translateY(0)"
-},
-{
-transform:
-"translateY(-120vh)"
-}
-],{
-duration:
-7000+
-Math.random()*4000
-});
-
-setTimeout(()=>{
-b.remove();
-},11000);
-
-}
-
-setInterval(
-createBinary,
-1500
-);
-
-/* =========================
-   CYBER FLASH
-========================= */
-
-setInterval(()=>{
-
-document.body.animate([
-{
-filter:
-"brightness(1)"
-},
-{
-filter:
-"brightness(1.15)"
-},
-{
-filter:
-"brightness(1)"
-}
-],{
-duration:400
-});
-
-},15000);
-
-/* =========================
-   RANDOM LOGO GLOW
-========================= */
-
-const logo =
-document.querySelector(".logo");
-
-if(logo){
-
-setInterval(()=>{
-
-logo.animate([
-{
-filter:
-"drop-shadow(0 0 5px #00d9ff)"
-},
-{
-filter:
-"drop-shadow(0 0 25px #ff00ff)"
-},
-{
-filter:
-"drop-shadow(0 0 5px #00d9ff)"
-}
-],{
-duration:1200
-});
-
-},6000);
-
-}
-
-/* =========================
-   MOUSE ENERGY WAVE
-========================= */
-
-document.addEventListener(
-"click",
-(e)=>{
-
-const wave =
-document.createElement("div");
-
-wave.style.position="fixed";
-
-wave.style.left=
-e.clientX+"px";
-
-wave.style.top=
-e.clientY+"px";
-
-wave.style.width="10px";
-wave.style.height="10px";
-
-wave.style.border=
-"2px solid #00d9ff";
-
-wave.style.borderRadius=
-"50%";
-
-wave.style.pointerEvents=
-"none";
-
-wave.style.zIndex=
-"9999";
-
-document.body.appendChild(wave);
-
-wave.animate([
-{
-transform:
-"translate(-50%,-50%) scale(0.5)",
-opacity:1
-},
-{
-transform:
-"translate(-50%,-50%) scale(15)",
-opacity:0
-}
-],{
-duration:900
-});
-
-setTimeout(()=>{
-wave.remove();
-},900);
-
-});
-
-/* =========================
-   PARALLAX HERO
-========================= */
-
-const hero =
-document.querySelector(".hero");
-
-document.addEventListener(
-"mousemove",
-(e)=>{
-
-if(!hero) return;
-
-const x =
-(window.innerWidth/2-e.clientX)
-*0.01;
-
-const y =
-(window.innerHeight/2-e.clientY)
-*0.01;
-
-hero.style.transform=
-`translate(${x}px,${y}px)`;
-
-});
-
-/* =========================
-   RANDOM REVIEW GLOW
-========================= */
-
-setInterval(()=>{
-
-const reviews =
-document.querySelectorAll(
-".review"
-);
-
-if(!reviews.length) return;
-
-const item =
-reviews[
-Math.floor(
-Math.random()*
-reviews.length
-)
-];
-
-item.animate([
-{
-boxShadow:
-"0 0 0px #00d9ff"
-},
-{
-boxShadow:
-"0 0 30px #00d9ff"
-},
-{
-boxShadow:
-"0 0 0px #00d9ff"
-}
-],{
-duration:1200
-});
-
-},5000);
-
-/* =========================
-   CYBER TITLE GLITCH
-========================= */
-
-document
-.querySelectorAll(
-".title"
-)
-.forEach(title=>{
-
-title.addEventListener(
-"mouseenter",
-()=>{
-
-title.animate([
-{
-transform:
-"translateX(-3px)"
-},
-{
-transform:
-"translateX(3px)"
-},
-{
-transform:
-"translateX(0)"
-}
-],{
-duration:150
 });
 
 });
 
-});
-
-/* =========================
-   RGB SCREEN SHIFT
-========================= */
-
-setInterval(()=>{
-
-document.body.animate([
-{
-filter:
-"hue-rotate(0deg)"
-},
-{
-filter:
-"hue-rotate(20deg)"
-},
-{
-filter:
-"hue-rotate(0deg)"
-}
-],{
-duration:1000
-});
-
-},20000);
-
-/* =========================
-   CARD FLOAT BOOST
-========================= */
-
-document
-.querySelectorAll(".card")
-.forEach(card=>{
-
-card.animate([
-{
-transform:
-"translateY(0px)"
-},
-{
-transform:
-"translateY(-8px)"
-},
-{
-transform:
-"translateY(0px)"
-}
-],{
-duration:
-4000+
-Math.random()*2000,
-iterations:Infinity
-});
-
-});
-
-/* =========================
-   END OF PART 3
-========================= */
+/* END */
