@@ -952,3 +952,404 @@ box-shadow:
 0 0 15px #00d9ff,
 0 0 30px #7b00ff;
 }
+
+/* =========================
+   INSANE CYBER ANIMATIONS
+========================= */
+
+/* RGB BODY */
+
+body{
+animation:bodyRGB 15s linear infinite;
+}
+
+@keyframes bodyRGB{
+
+0%{filter:hue-rotate(0deg);}
+100%{filter:hue-rotate(360deg);}
+
+}
+
+/* CYBER GRID */
+
+body::after{
+
+background:
+linear-gradient(rgba(0,217,255,.04) 1px, transparent 1px),
+linear-gradient(90deg, rgba(123,0,255,.04) 1px, transparent 1px);
+
+background-size:50px 50px;
+
+animation:gridMove 15s linear infinite;
+}
+
+@keyframes gridMove{
+
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(50px);
+}
+
+}
+
+/* LOGO CRAZY */
+
+.logo{
+
+animation:
+logoFlow 8s linear infinite,
+logoPulse 2s ease-in-out infinite;
+}
+
+@keyframes logoPulse{
+
+0%,100%{
+filter:drop-shadow(0 0 10px #00d9ff);
+}
+
+50%{
+filter:
+drop-shadow(0 0 25px #00d9ff)
+drop-shadow(0 0 50px #ff00ff);
+}
+
+}
+
+/* NAV LINKS FLOAT */
+
+nav a{
+
+animation:navFloat 5s ease-in-out infinite;
+}
+
+@keyframes navFloat{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-3px);
+}
+
+}
+
+/* HERO TITLE */
+
+.hero h1{
+
+animation:
+textGlow 4s ease-in-out infinite,
+textWave 8s ease-in-out infinite;
+}
+
+@keyframes textGlow{
+
+0%,100%{
+
+text-shadow:
+0 0 20px #00d9ff;
+}
+
+50%{
+
+text-shadow:
+0 0 30px #00d9ff,
+0 0 60px #7b00ff,
+0 0 90px #ff00ff;
+}
+
+}
+
+@keyframes textWave{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-6px);
+}
+
+}
+
+/* AVATAR SUPER EFFECT */
+
+.hero img{
+
+animation:
+avatarFloat 6s ease-in-out infinite,
+avatarSpin 20s linear infinite,
+avatarGlow 3s infinite;
+}
+
+@keyframes avatarSpin{
+
+from{
+rotate:0deg;
+}
+
+to{
+rotate:360deg;
+}
+
+}
+
+@keyframes avatarGlow{
+
+0%,100%{
+
+box-shadow:
+0 0 30px #00d9ff;
+}
+
+50%{
+
+box-shadow:
+0 0 60px #00d9ff,
+0 0 120px #7b00ff,
+0 0 180px #ff00ff;
+}
+
+}
+
+/* BUTTON RGB */
+
+.btn{
+
+background-size:300% 300%;
+
+animation:btnRGB 6s linear infinite;
+}
+
+@keyframes btnRGB{
+
+0%{
+background-position:0%;
+}
+
+100%{
+background-position:300%;
+}
+
+}
+
+/* SKILLS FLOAT */
+
+.skill{
+
+animation:skillFloat 6s ease-in-out infinite;
+}
+
+.skill:nth-child(2){
+animation-delay:1s;
+}
+
+.skill:nth-child(3){
+animation-delay:2s;
+}
+
+.skill:nth-child(4){
+animation-delay:3s;
+}
+
+@keyframes skillFloat{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-10px);
+}
+
+}
+
+/* CARD HOLOGRAM */
+
+.card{
+
+animation:hologramCard 6s linear infinite;
+}
+
+@keyframes hologramCard{
+
+0%,100%{
+filter:brightness(1);
+}
+
+50%{
+filter:brightness(1.2);
+}
+
+}
+
+/* CARD RGB SHADOW */
+
+.card:hover{
+
+animation:rgbFlash .4s infinite;
+}
+
+@keyframes rgbFlash{
+
+0%{
+box-shadow:0 0 20px #00d9ff;
+}
+
+33%{
+box-shadow:0 0 20px #7b00ff;
+}
+
+66%{
+box-shadow:0 0 20px #ff00ff;
+}
+
+100%{
+box-shadow:0 0 20px #00d9ff;
+}
+
+}
+
+/* REVIEWS */
+
+.review{
+
+animation:reviewPulse 4s ease-in-out infinite;
+}
+
+@keyframes reviewPulse{
+
+0%,100%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.02);
+}
+
+}
+
+/* CONTACT BUTTONS */
+
+.contact a{
+
+background-size:300% 300%;
+
+animation:
+contactRGB 5s linear infinite,
+contactFloat 4s ease-in-out infinite;
+}
+
+@keyframes contactRGB{
+
+0%{
+background-position:0%;
+}
+
+100%{
+background-position:300%;
+}
+
+}
+
+@keyframes contactFloat{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-6px);
+}
+
+}
+
+/* TITLE EFFECT */
+
+.title{
+
+animation:titleGlow 3s infinite;
+}
+
+@keyframes titleGlow{
+
+0%,100%{
+
+text-shadow:
+0 0 10px #00d9ff;
+}
+
+50%{
+
+text-shadow:
+0 0 20px #00d9ff,
+0 0 40px #7b00ff,
+0 0 60px #ff00ff;
+}
+
+}
+
+/* CURSOR */
+
+.cursor{
+
+animation:cursorPulse 1s infinite;
+}
+
+@keyframes cursorPulse{
+
+0%,100%{
+
+scale:1;
+}
+
+50%{
+
+scale:1.6;
+}
+
+}
+
+/* FOOTER */
+
+footer{
+
+animation:footerGlow 4s infinite;
+}
+
+@keyframes footerGlow{
+
+0%,100%{
+opacity:.7;
+}
+
+50%{
+opacity:1;
+}
+
+}
+
+/* SCROLLBAR RGB */
+
+::-webkit-scrollbar-thumb{
+
+background-size:300% 300%;
+
+animation:scrollRGB 4s linear infinite;
+}
+
+@keyframes scrollRGB{
+
+0%{
+filter:hue-rotate(0deg);
+}
+
+100%{
+filter:hue-rotate(360deg);
+}
+
+}
