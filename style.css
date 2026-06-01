@@ -31,16 +31,12 @@ scroll-behavior:smooth;
 }
 
 body{
+animation:bodyRGB 15s linear infinite;
+}
 
-background:var(--bg);
-
-color:var(--text);
-
-overflow-x:hidden;
-
-min-height:100vh;
-
-position:relative;
+@keyframes bodyRGB{
+0%{filter:hue-rotate(0deg);}
+100%{filter:hue-rotate(360deg);}
 }
 
 /* =========================
