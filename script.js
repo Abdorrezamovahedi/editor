@@ -1,118 +1,193 @@
-/* =========================
-   WARNING GLITCH SCREEN
-========================= */
+/* =====================================
+   RED HACKER PRANK SCREEN
+===================================== */
 
 window.addEventListener("load",()=>{
 
-const warning=document.createElement("div");
+/* CSS */
 
-warning.innerHTML=`
-<div style="
+const style=document.createElement("style");
+
+style.innerHTML=`
+
+.warning-screen{
+position:fixed;
+inset:0;
+background:#000;
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
-height:100%;
-gap:20px;
-">
+align-items:center;
+overflow:hidden;
+z-index:999999;
+}
 
-<div style="
-font-size:120px;
-color:red;
-text-shadow:0 0 30px red;
-animation:pulse .2s infinite;
-">
-⚠
-</div>
-
-<h1 style="
+.binary-bg{
+position:absolute;
+inset:0;
 color:#ff0000;
 font-family:monospace;
-font-size:42px;
-text-align:center;
-text-shadow:0 0 20px red;
-">
-WARNING
-</h1>
-
-<p style="
-color:white;
-font-family:monospace;
 font-size:18px;
-text-align:center;
-">
-Loading Security Protocol...
-</p>
+line-height:18px;
+opacity:.18;
+white-space:pre-wrap;
+word-break:break-all;
+pointer-events:none;
+user-select:none;
+animation:binaryMove 3s linear infinite;
+}
 
-</div>
-`;
+.warning-triangle{
+font-size:220px;
+color:#ff0000;
+z-index:2;
+text-shadow:
+0 0 20px red,
+0 0 40px red,
+0 0 80px red,
+0 0 120px red;
+animation:pulse .25s infinite;
+}
 
-warning.style.cssText=`
-position:fixed;
-top:0;
-left:0;
+.warning-title{
+font-size:72px;
+font-weight:900;
+letter-spacing:12px;
+color:#ff0000;
+z-index:2;
+text-shadow:
+4px 0 #fff,
+-4px 0 red;
+animation:glitch .08s infinite;
+}
+
+.warning-sub{
+font-size:22px;
+margin-top:15px;
+letter-spacing:5px;
+z-index:2;
+color:#fff;
+}
+
+.warning-scan{
+position:absolute;
 width:100%;
-height:100%;
-background:black;
-z-index:999999;
-overflow:hidden;
+height:4px;
+background:red;
+box-shadow:0 0 25px red;
+animation:scan 1.2s linear infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.12);}
+}
+
+@keyframes glitch{
+0%{transform:translate(0);}
+25%{transform:translate(-6px,2px);}
+50%{transform:translate(6px,-2px);}
+75%{transform:translate(-3px,1px);}
+100%{transform:translate(0);}
+}
+
+@keyframes binaryMove{
+from{transform:translateY(-50px);}
+to{transform:translateY(50px);}
+}
+
+@keyframes scan{
+from{top:-10px;}
+to{top:100%;}
+}
+
 `;
 
-/* صدا */
+document.head.appendChild(style);
 
-const sound = new Audio(
-"Tv-Noise-online-audio-converter.com_.mp3"
-);
+/* Binary Background */
 
-sound.volume = 1;
+let binary="";
 
-document.body.appendChild(warning);
+for(let i=0;i<4000;i++){
+binary+=Math.random()>.5?"1":"0";
+if(i%80===0) binary+="\n";
+}
 
-/* تلاش برای پخش صدا */
+/* Screen */
 
-sound.play().catch(()=>{
-console.log("Browser blocked autoplay audio");
-});
+const screen=document.createElement("div");
 
-/* گلیچ */
+screen.className="warning-screen";
 
-const flash=setInterval(()=>{
+screen.innerHTML=`
+<div class="binary-bg">${binary}</div>
+<div class="warning-scan"></div>
+<div class="warning-triangle">⚠</div>
+<div class="warning-title">ACCESS DENIED</div>
+<div class="warning-sub">SECURITY BREACH DETECTED</div>
+`;
 
-warning.style.background=
-Math.random()>0.5
-? "#220000"
-: "#000000";
+document.body.appendChild(screen);
 
-warning.style.transform=
-`translate(
-${Math.random()*20-10}px,
-${Math.random()*20-10}px
-)`;
+/* Electronic Beeps */
 
-warning.style.filter=
-`brightness(${1+Math.random()*1})
-contrast(${1+Math.random()*2})`;
+try{
+
+const ctx=new(window.AudioContext||window.webkitAudioContext)();
+
+function beep(freq,time){
+
+const osc=ctx.createOscillator();
+const gain=ctx.createGain();
+
+osc.type="square";
+osc.frequency.value=freq;
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+gain.gain.value=.03;
+
+osc.start();
+
+setTimeout(()=>{
+osc.stop();
+},time);
+
+}
+
+beep(300,120);
+setTimeout(()=>beep(600,120),150);
+setTimeout(()=>beep(220,180),300);
+
+}catch(e){}
+
+/* Glitch */
+
+const glitch=setInterval(()=>{
+
+screen.style.transform=
+`translate(${Math.random()*20-10}px,
+${Math.random()*20-10}px)`;
+
+screen.style.filter=
+`brightness(${1+Math.random()*0.5})`;
 
 },40);
 
-/* حذف بعد از 2 ثانیه */
+/* Remove */
 
 setTimeout(()=>{
 
-clearInterval(flash);
+clearInterval(glitch);
 
-sound.pause();
-sound.currentTime=0;
+screen.style.transition="opacity .5s";
 
-warning.style.transition=
-"opacity .5s ease";
-
-warning.style.opacity="0";
+screen.style.opacity="0";
 
 setTimeout(()=>{
-
-warning.remove();
-
+screen.remove();
 },500);
 
 },2000);
@@ -120,9 +195,9 @@ warning.remove();
 });
 
 
-/* =========================
-   ORIGINAL CODE
-========================= */
+/* =====================================
+   YOUR ORIGINAL CODE
+===================================== */
 
 const observer = new IntersectionObserver(entries=>{
 
