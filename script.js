@@ -1,187 +1,176 @@
-/* ========================= */
-/* CORE SYSTEM */
-/* ========================= */
+/* =========================
+   CORE SYSTEM (OPTIMIZED)
+========================= */
 
 const isMobile = window.innerWidth < 768;
 
-const observer = new IntersectionObserver((entries)=>{
+/* Reveal on scroll */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+    }
+  });
+}, { threshold: 0.12 });
 
-entries.forEach(entry=>{
+document.querySelectorAll(".hidden").forEach(el => observer.observe(el));
 
-if(entry.isIntersecting){
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
 
-entry.target.classList.add("show");
+    const target = document.querySelector(this.getAttribute("href"));
 
-}
-
-});
-
-},{
-threshold:0.15
-});
-
-document.querySelectorAll(".hidden").forEach(el=>{
-
-observer.observe(el);
-
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-
-anchor.addEventListener("click",function(e){
-
-e.preventDefault();
-
-const target=document.querySelector(
-this.getAttribute("href")
-);
-
-if(target){
-
-target.scrollIntoView({
-behavior:"smooth"
-});
-
-}
-
-});
-
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  });
 });
 
 console.log("Core Loaded");
-/* ========================= */
-/* PARTICLES SYSTEM */
-/* ========================= */
 
-const canvas=document.createElement("canvas");
+/* =========================
+   PARTICLES (OPTIMIZED CANVAS)
+========================= */
 
-canvas.id="particles";
-
+const canvas = document.createElement("canvas");
+canvas.id = "particles";
 document.body.prepend(canvas);
 
-const ctx=canvas.getContext("2d");
+const ctx = canvas.getContext("2d");
 
-let w,h;
+let w, h;
 
-function resizeCanvas(){
-
-w=canvas.width=window.innerWidth;
-h=canvas.height=window.innerHeight;
-
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
 }
 
-resizeCanvas();
+resize();
+window.addEventListener("resize", resize);
 
-window.addEventListener(
-"resize",
-resizeCanvas
-);
+/* reduce particles for performance */
+const particleCount = isMobile ? 20 : 45;
 
-const particles=[];
+const particles = [];
 
-const particleCount=
-isMobile ? 25 : 60;
-
-for(let i=0;i<particleCount;i++){
-
-particles.push({
-
-x:Math.random()*w,
-y:Math.random()*h,
-
-vx:(Math.random()-0.5)*0.25,
-vy:(Math.random()-0.5)*0.25,
-
-size:Math.random()*2+1
-
-});
-
+for (let i = 0; i < particleCount; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    vx: (Math.random() - 0.5) * 0.2,
+    vy: (Math.random() - 0.5) * 0.2,
+    size: Math.random() * 1.8 + 0.6
+  });
 }
 
-function drawParticles(){
+let lastTime = 0;
 
-ctx.clearRect(0,0,w,h);
+function draw(t) {
 
-for(const p of particles){
+  /* throttle for mobile */
+  if (isMobile && t - lastTime < 33) {
+    requestAnimationFrame(draw);
+    return;
+  }
 
-p.x+=p.vx;
-p.y+=p.vy;
+  lastTime = t;
 
-if(p.x<0||p.x>w)p.vx*=-1;
-if(p.y<0||p.y>h)p.vy*=-1;
+  ctx.clearRect(0, 0, w, h);
 
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+  for (let p of particles) {
 
-ctx.fillStyle="rgba(0,255,255,.4)";
-ctx.fill();
+    p.x += p.vx;
+    p.y += p.vy;
 
+    if (p.x < 0 || p.x > w) p.vx *= -1;
+    if (p.y < 0 || p.y > h) p.vy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+    ctx.fillStyle = "rgba(0,255,255,0.35)";
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
 }
 
-requestAnimationFrame(drawParticles);
-
-}
-
-drawParticles();
+requestAnimationFrame(draw);
 
 console.log("Particles Loaded");
-/* ========================= */
-/* GAMING EFFECTS */
-/* ========================= */
 
-if(!isMobile){
+/* =========================
+   CURSOR GLOW (DESKTOP ONLY)
+========================= */
 
-const glow=document.createElement("div");
+if (!isMobile) {
 
-glow.className="cursor-glow";
+  const glow = document.createElement("div");
+  glow.className = "cursor-glow";
+  document.body.appendChild(glow);
 
-document.body.appendChild(glow);
+  let mouseX = 0;
+  let mouseY = 0;
+  let glowX = 0;
+  let glowY = 0;
 
-document.addEventListener("mousemove",(e)=>{
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
 
-glow.style.left=e.clientX+"px";
-glow.style.top=e.clientY+"px";
+  function animateGlow() {
+    glowX += (mouseX - glowX) * 0.15;
+    glowY += (mouseY - glowY) * 0.15;
 
-});
+    glow.style.left = glowX + "px";
+    glow.style.top = glowY + "px";
 
+    requestAnimationFrame(animateGlow);
+  }
+
+  animateGlow();
 }
 
-document.querySelectorAll(".card").forEach(card=>{
+console.log("Cursor Loaded");
 
-card.addEventListener("mousemove",(e)=>{
+/* =========================
+   3D CARDS (OPTIMIZED)
+========================= */
 
-if(isMobile) return;
+document.querySelectorAll(".card").forEach(card => {
 
-const rect=
-card.getBoundingClientRect();
+  let active = false;
 
-const x=
-e.clientX-rect.left;
+  card.addEventListener("mousemove", (e) => {
 
-const y=
-e.clientY-rect.top;
+    if (isMobile) return;
 
-const rotateY=
-(x-rect.width/2)/20;
+    const rect = card.getBoundingClientRect();
 
-const rotateX=
-(rect.height/2-y)/20;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-card.style.transform=
-`perspective(1000px)
-rotateX(${rotateX}deg)
-rotateY(${rotateY}deg)
-scale(1.03)`;
+    const rotateY = (x - rect.width / 2) / 25;
+    const rotateX = (rect.height / 2 - y) / 25;
 
-});
+    card.style.transform =
+      `perspective(900px)
+       rotateX(${rotateX}deg)
+       rotateY(${rotateY}deg)
+       scale(1.02)`;
+  });
 
-card.addEventListener("mouseleave",()=>{
-
-card.style.transform=
-"perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
-
-});
+  card.addEventListener("mouseleave", () => {
+    card.style.transform =
+      "perspective(900px) rotateX(0) rotateY(0) scale(1)";
+  });
 
 });
 
-console.log("Gaming FX Loaded");
+console.log("Gaming FX Loaded ✔");
